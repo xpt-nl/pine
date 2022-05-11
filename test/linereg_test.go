@@ -1,11 +1,10 @@
 package pine_test
 
 import (
+	"fmt"
 	"math"
 	"testing"
 	"time"
-
-	"github.com/pkg/errors"
 
 	. "github.com/tsuz/go-pine"
 )
@@ -75,7 +74,7 @@ func TestLinReg(t *testing.T) {
 	prettybad := 0.005
 	s, err := NewSeries(data, opts)
 	if err != nil {
-		t.Fatal(errors.Wrap(err, "error init series"))
+		t.Fatal(fmt.Errorf("error init series: %w", err))
 	}
 	s.AddIndicator("linreg", linreg)
 

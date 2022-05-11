@@ -1,10 +1,9 @@
 package pine_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
-
-	"github.com/pkg/errors"
 
 	. "github.com/tsuz/go-pine"
 )
@@ -70,7 +69,7 @@ func TestOHLCProp(t *testing.T) {
 	for i, o := range io {
 		s, err := NewSeries(data, opts)
 		if err != nil {
-			t.Fatal(errors.Wrap(err, "error init series"))
+			t.Fatal(fmt.Errorf("error init series: %w", err))
 		}
 		p := NewOHLCProp(o.prop)
 		s.AddIndicator("val", p)

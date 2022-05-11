@@ -1,11 +1,10 @@
 package pine_test
 
 import (
+	"fmt"
 	"math"
 	"testing"
 	"time"
-
-	"github.com/pkg/errors"
 
 	. "github.com/tsuz/go-pine"
 )
@@ -111,7 +110,7 @@ func TestStdDev(t *testing.T) {
 		tim := now.Add(time.Duration(idx*itvl) * time.Second)
 		v := s.GetValueForInterval(tim)
 		if v == nil {
-			t.Fatal(errors.Wrap(err, "interval should not be nil"))
+			t.Fatal(fmt.Errorf("interval should not be nil: %w", err))
 		}
 		if exp == nil && v.Indicators[name] == nil {
 			continue // ok

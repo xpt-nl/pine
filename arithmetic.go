@@ -1,11 +1,10 @@
 package pine
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/shopspring/decimal"
-
-	"github.com/pkg/errors"
 )
 
 // ArithmeticOpts defines handling of special cases on arithmetic operations
@@ -118,10 +117,10 @@ func (i *arith) generateValue(ai, bi *Interval) *float64 {
 func (i *arith) Update(v OHLCV) error {
 	// validate if needed
 	if err := i.a.Update(v); err != nil {
-		return errors.Wrap(err, "error updating in addition")
+		return fmt.Errorf("error updating in addition: %w", err)
 	}
 	if err := i.b.Update(v); err != nil {
-		return errors.Wrap(err, "error updating in addition")
+		return fmt.Errorf("error updating in addition: %w", err)
 	}
 	return nil
 }
@@ -129,10 +128,10 @@ func (i *arith) Update(v OHLCV) error {
 func (i *arith) ApplyOpts(opts SeriesOpts) error {
 	// validate if needed
 	if err := i.a.ApplyOpts(opts); err != nil {
-		return errors.Wrap(err, "error applying opts in addition")
+		return fmt.Errorf("error applying opts in addition: %w", err)
 	}
 	if err := i.b.ApplyOpts(opts); err != nil {
-		return errors.Wrap(err, "error applying opts in addition")
+		return fmt.Errorf("error applying opts in addition: %w", err)
 	}
 	return nil
 }

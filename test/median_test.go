@@ -1,10 +1,9 @@
 package pine_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
-
-	"github.com/pkg/errors"
 
 	. "github.com/tsuz/go-pine"
 )
@@ -72,7 +71,7 @@ func TestMedian(t *testing.T) {
 	}
 	s, err := NewSeries(data, opts)
 	if err != nil {
-		t.Fatal(errors.Wrap(err, "error init series"))
+		t.Fatal(fmt.Errorf("error init series: %w", err))
 	}
 	s.AddIndicator(even, indeven)
 	s.AddIndicator(odd, indodd)

@@ -1,13 +1,13 @@
 package pine
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/shopspring/decimal"
 
 	"gonum.org/v1/gonum/stat"
-
-	"github.com/pkg/errors"
 )
 
 type linreg struct {
@@ -103,7 +103,7 @@ func (i *linreg) generateAvg(t time.Time) error {
 
 func (i *linreg) Update(v OHLCV) error {
 	if err := i.src.Update(v); err != nil {
-		return errors.Wrap(err, "error received from src in LinReg")
+		return fmt.Errorf("error received from src in LinReg: %w", err)
 	}
 	if !i.shouldUpdate(v) {
 		return nil
@@ -143,7 +143,7 @@ func (i *linreg) ApplyOpts(opts SeriesOpts) error {
 		return errors.New("SeriesOpts max cannot be less than LinReg lookback value")
 	}
 	if err := i.src.ApplyOpts(opts); err != nil {
-		return errors.Wrap(err, "error applying opts in source")
+		return fmt.Errorf("error applying opts in source: %w", err)
 	}
 	return nil
 }

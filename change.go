@@ -1,11 +1,11 @@
 package pine
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/shopspring/decimal"
-
-	"github.com/pkg/errors"
 )
 
 type chg struct {
@@ -61,7 +61,7 @@ func (i *chg) GetValueForInterval(t time.Time) *Interval {
 
 func (i *chg) Update(v OHLCV) error {
 	if err := i.src.Update(v); err != nil {
-		return errors.Wrap(err, "error received from src in Change")
+		return fmt.Errorf("error received from src in Change: %w", err)
 	}
 	return nil
 }
@@ -71,7 +71,7 @@ func (i *chg) ApplyOpts(opts SeriesOpts) error {
 		return errors.New("SeriesOpts max cannot be less than Change lookback value")
 	}
 	if err := i.src.ApplyOpts(opts); err != nil {
-		return errors.Wrap(err, "error applying opts in source")
+		return fmt.Errorf("error applying opts in source: %w", err)
 	}
 	i.opts = &opts
 	return nil

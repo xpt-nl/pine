@@ -1,10 +1,9 @@
 package pine_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
-
-	"github.com/pkg/errors"
 
 	. "github.com/tsuz/go-pine"
 )
@@ -122,7 +121,7 @@ func TestSeriesAddExecFromEmptyData(t *testing.T) {
 
 	for _, tpq := range tpqs {
 		if err := s.AddExec(tpq); err != nil {
-			t.Fatal(errors.Wrapf(err, "error adding exec: %+v", tpq))
+			t.Fatal(fmt.Errorf("error adding exec: %+v: %w", tpq, err))
 		}
 	}
 

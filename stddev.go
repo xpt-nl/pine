@@ -1,12 +1,12 @@
 package pine
 
 import (
+	"errors"
+	"fmt"
 	"math"
 	"time"
 
 	"github.com/shopspring/decimal"
-
-	"github.com/pkg/errors"
 )
 
 // NewStdDev creates a new standard deviation indicator
@@ -62,7 +62,7 @@ func (i *stddev) shouldUpdate(v OHLCV) bool {
 
 func (i *stddev) Update(v OHLCV) error {
 	if err := i.src.Update(v); err != nil {
-		return errors.Wrap(err, "error received from src in StdDev")
+		return fmt.Errorf("error received from src in StdDev: %w", err)
 	}
 	if !i.shouldUpdate(v) {
 		return nil
@@ -102,7 +102,7 @@ func (i *stddev) ApplyOpts(opts SeriesOpts) error {
 		return errors.New("SeriesOpts max cannot be less than StdDev lookback value")
 	}
 	if err := i.src.ApplyOpts(opts); err != nil {
-		return errors.Wrap(err, "error applying opts in source")
+		return fmt.Errorf("error applying opts in source: %w", err)
 	}
 	if i.opts == nil || i.opts.Max != opts.Max {
 		i.genval = make(map[time.Time]*TimeValue, opts.Max)

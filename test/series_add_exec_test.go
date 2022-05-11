@@ -1,10 +1,9 @@
 package pine_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
-
-	"github.com/pkg/errors"
 
 	. "github.com/tsuz/go-pine"
 )
@@ -50,7 +49,7 @@ func TestSeriesAddExec(t *testing.T) {
 		Qty:       1,
 	}
 	if err := s.AddExec(tpqhigh); err != nil {
-		t.Fatal(errors.Wrapf(err, "error adding exec: %+v", tpqhigh))
+		t.Fatal(fmt.Errorf("error adding exec: %+v: %w", tpqhigh, err))
 	}
 
 	v := s.GetValueForInterval(fivemin)
@@ -75,7 +74,7 @@ func TestSeriesAddExec(t *testing.T) {
 		Qty:       4,
 	}
 	if err := s.AddExec(tpqlow); err != nil {
-		t.Fatal(errors.Wrapf(err, "error adding exec: %+v", tpqlow))
+		t.Fatal(fmt.Errorf("error adding exec: %+v: %w", tpqlow, err))
 	}
 	v = s.GetValueForInterval(fivemin)
 	if v == nil {
@@ -102,7 +101,7 @@ func TestSeriesAddExec(t *testing.T) {
 		Qty:       9,
 	}
 	if err := s.AddExec(tpqnew); err != nil {
-		t.Fatal(errors.Wrapf(err, "error adding exec: %+v", tpqnew))
+		t.Fatal(fmt.Errorf("error adding exec: %+v: %w", tpqnew, err))
 	}
 	v = s.GetValueForInterval(tenmin)
 	if v == nil {
@@ -132,7 +131,7 @@ func TestSeriesAddExec(t *testing.T) {
 		Qty:       3,
 	}
 	if err := s.AddExec(tpqtwe); err != nil {
-		t.Fatal(errors.Wrapf(err, "error adding exec: %+v", tpqtwe))
+		t.Fatal(fmt.Errorf("error adding exec: %+v: %w", tpqtwe, err))
 	}
 	v = s.GetValueForInterval(twemin.Add(-5 * time.Minute))
 	if v == nil {

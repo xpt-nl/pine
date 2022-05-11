@@ -1,9 +1,9 @@
 package pine
 
 import (
+	"errors"
+	"fmt"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
 type sma struct {
@@ -86,7 +86,7 @@ func (i *sma) generateAvg(t time.Time) error {
 
 func (i *sma) Update(v OHLCV) error {
 	if err := i.src.Update(v); err != nil {
-		return errors.Wrap(err, "error received from src in SMA")
+		return fmt.Errorf("error received from src in SMA: %w", err)
 	}
 	if !i.shouldUpdate(v) {
 		return nil
@@ -126,7 +126,7 @@ func (i *sma) ApplyOpts(opts SeriesOpts) error {
 		return errors.New("SeriesOpts max cannot be less than SMA lookback value")
 	}
 	if err := i.src.ApplyOpts(opts); err != nil {
-		return errors.Wrap(err, "error applying opts in source")
+		return fmt.Errorf("error applying opts in source: %w", err)
 	}
 	return nil
 }

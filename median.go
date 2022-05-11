@@ -1,11 +1,11 @@
 package pine
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/shopspring/decimal"
-
-	"github.com/pkg/errors"
 )
 
 type median struct {
@@ -98,7 +98,7 @@ func (i *median) generateMedian(t time.Time) error {
 
 func (i *median) Update(v OHLCV) error {
 	if err := i.src.Update(v); err != nil {
-		return errors.Wrap(err, "error received from src in Median")
+		return fmt.Errorf("error received from src in Median: %w", err)
 	}
 	if !i.shouldUpdate(v) {
 		return nil
@@ -138,7 +138,7 @@ func (i *median) ApplyOpts(opts SeriesOpts) error {
 		return errors.New("SeriesOpts max cannot be less than Median lookback value")
 	}
 	if err := i.src.ApplyOpts(opts); err != nil {
-		return errors.Wrap(err, "error applying opts in source")
+		return fmt.Errorf("error applying opts in source: %w", err)
 	}
 	return nil
 }

@@ -1,11 +1,10 @@
 package pine
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
 type Series interface {
@@ -71,7 +70,7 @@ func NewSeries(ohlcv []OHLCV, opts SeriesOpts) (Series, error) {
 		err = errors.New("`Max` must be positive")
 	}
 	if err != nil {
-		return nil, errors.Wrap(err, "error validating seriesopts")
+		return nil, fmt.Errorf("error validating seriesopts: %w", err)
 	}
 	tm := make(map[time.Time]*OHLCV)
 	s := &series{
@@ -113,7 +112,7 @@ func (s *series) insertInterval(v OHLCV) {
 func (s *series) updateIndicators(v OHLCV) error {
 	for _, ind := range s.items {
 		if err := ind.Update(v); err != nil {
-			return errors.Wrap(err, "error updating indicator")
+			return fmt.Errorf("error updating indicator: %w", err)
 		}
 	}
 	return nil
@@ -141,16 +140,16 @@ func (s *series) AddExec(v TPQ) error {
 	start := s.getLastIntervalFromTime(v.Timestamp)
 	if s.lastOHLC == nil {
 		if err := s.createNewOHLCV(v, start); err != nil {
-			return errors.Wrap(err, "error creating new ohlcv")
+			return fmt.Errorf("error creating new ohlcv: %w", err)
 		}
 	} else if s.lastOHLC.S.Equal(start) {
 		if err := s.updateLastOHLCV(v); err != nil {
-			return errors.Wrap(err, "error creating new ohlcv")
+			return fmt.Errorf("error creating new ohlcv: %w", err)
 		}
 	} else if start.Sub(s.lastOHLC.S).Seconds() > 0 {
 		// calculate how many intervals are missing
 		if err := s.updateAndFillGaps(v, start); err != nil {
-			return errors.Wrap(err, "error updating and filling gaps")
+			return fmt.Errorf("error updating and filling gaps: %w", err)
 		}
 	}
 	s.lastExec = v
@@ -166,7 +165,7 @@ func (s *series) createNewOHLCV(v TPQ, start time.Time) error {
 	ohlcv := NewOHLCVWithSamePx(v.Px, v.Qty, start)
 	s.insertInterval(ohlcv)
 	if err := s.updateIndicators(ohlcv); err != nil {
-		return errors.Wrap(err, "error updating indicator")
+		return fmt.Errorf("error updating indicator: %w", err)
 	}
 	return nil
 }
@@ -181,7 +180,7 @@ func (s *series) updateLastOHLCV(v TPQ) error {
 		itvl.L = v.Px
 	}
 	if err := s.updateIndicators(*itvl); err != nil {
-		return errors.Wrap(err, "error updating indicator")
+		return fmt.Errorf("error updating indicator: %w", err)
 	}
 	return nil
 }
@@ -239,12 +238,12 @@ func (s *series) updateAndFillGaps(v TPQ, start time.Time) error {
 func (s *series) AddIndicator(name string, i Indicator) error {
 	// enforce series constraint
 	if err := i.ApplyOpts(s.opts); err != nil {
-		return errors.Wrap(err, "error applying opts")
+		return fmt.Errorf("error applying opts")
 	}
 	// update with current values downstream
 	for _, v := range s.values {
 		if err := i.Update(v); err != nil {
-			return errors.Wrap(err, "error updating indicator")
+			return fmt.Errorf("error updating indicator")
 		}
 	}
 	s.items[name] = i

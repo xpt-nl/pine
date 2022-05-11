@@ -1,10 +1,9 @@
 package pine_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
-
-	"github.com/pkg/errors"
 
 	. "github.com/tsuz/go-pine"
 )
@@ -55,7 +54,7 @@ func TestSeriesAddOHLCV(t *testing.T) {
 	}
 
 	if err := s.AddOHLCV(rep); err != nil {
-		t.Fatal(errors.Wrapf(err, "error adding ohlcv: %+v", rep))
+		t.Fatal(fmt.Errorf("error adding ohlcv: %+v: %w", rep, err))
 	}
 	v := s.GetValueForInterval(now)
 	if v == nil {
@@ -75,7 +74,7 @@ func TestSeriesAddOHLCV(t *testing.T) {
 	}
 
 	if err := s.AddOHLCV(newv); err != nil {
-		t.Fatal(errors.Wrapf(err, "error adding ohlcv: %+v", rep))
+		t.Fatal(fmt.Errorf("error adding ohlcv: %+v: %w", rep, err))
 	}
 	v = s.GetValueForInterval(fivemin)
 	if v == nil {

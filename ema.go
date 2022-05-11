@@ -1,11 +1,11 @@
 package pine
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/shopspring/decimal"
-
-	"github.com/pkg/errors"
 )
 
 type ema struct {
@@ -105,7 +105,7 @@ func (i *ema) generateEma(t time.Time) error {
 
 func (i *ema) Update(v OHLCV) error {
 	if err := i.src.Update(v); err != nil {
-		return errors.Wrap(err, "error received from src in EMA")
+		return fmt.Errorf("error received from src in EMA: %w", err)
 	}
 	if !i.shouldUpdate(v) {
 		return nil
@@ -145,7 +145,7 @@ func (i *ema) ApplyOpts(opts SeriesOpts) error {
 		return errors.New("SeriesOpts max cannot be less than EMA lookback value")
 	}
 	if err := i.src.ApplyOpts(opts); err != nil {
-		return errors.Wrap(err, "error applying opts in source")
+		return fmt.Errorf("error applying opts in source: %w", err)
 	}
 	return nil
 }

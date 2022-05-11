@@ -1,10 +1,9 @@
 package pine_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
-
-	"github.com/pkg/errors"
 
 	. "github.com/tsuz/go-pine"
 )
@@ -39,10 +38,10 @@ func TestConstantInit(t *testing.T) {
 	}
 	s, err := NewSeries(data, opts)
 	if err != nil {
-		t.Fatal(errors.Wrap(err, "error init series"))
+		t.Fatal(fmt.Errorf("error init series: %w", err))
 	}
 	if err := s.AddIndicator("constant", constant); err != nil {
-		t.Fatal(errors.Wrap(err, "expected constant to not error but errored"))
+		t.Fatal(fmt.Errorf("expected constant to not error but errored: %w", err))
 	}
 	v := s.GetValueForInterval(now)
 	if *(v.Indicators["constant"]) != 5.0 {

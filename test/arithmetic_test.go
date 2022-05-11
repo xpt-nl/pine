@@ -1,10 +1,10 @@
 package pine_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
-	"github.com/pkg/errors"
 	"github.com/shopspring/decimal"
 
 	. "github.com/tsuz/go-pine"
@@ -105,7 +105,7 @@ func TestArithmetic(t *testing.T) {
 
 	s, err := NewSeries(data, opts)
 	if err != nil {
-		t.Fatal(errors.Wrap(err, "error init series"))
+		t.Fatal(fmt.Errorf("error init series: %w", err))
 	}
 	for _, o := range io {
 		ar := NewArithmetic(o.t, hl2, c, ArithmeticOpts{})
