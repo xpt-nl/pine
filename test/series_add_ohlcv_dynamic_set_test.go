@@ -1,10 +1,12 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestSeriesAddOHLCV(t *testing.T) {
@@ -19,7 +21,7 @@ func TestSeriesAddOHLCV(t *testing.T) {
 	now := time.Now()
 	fivemin := now.Add(5 * time.Minute)
 	data := []OHLCV{
-		OHLCV{
+		{
 			O: 14,
 			H: 15,
 			L: 13,

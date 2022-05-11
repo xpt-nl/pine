@@ -1,14 +1,15 @@
-package pine
+package pine_test
 
 import (
 	"encoding/csv"
-	"fmt"
 	"io"
 	"log"
 	"os"
 	"strconv"
 	"testing"
 	"time"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func initDataset() []OHLCV {
@@ -60,7 +61,6 @@ func initDataset() []OHLCV {
 			S: s.Add(24 * time.Hour),
 		}
 		data = append(data, p)
-		fmt.Println(p)
 	}
 	return data
 }

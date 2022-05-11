@@ -1,10 +1,12 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestConstantInit(t *testing.T) {
@@ -18,7 +20,7 @@ func TestConstantInit(t *testing.T) {
 	constant := NewConstant(5.0)
 
 	data := []OHLCV{
-		OHLCV{
+		{
 			O: 14,
 			H: 15,
 			L: 13,
@@ -26,7 +28,7 @@ func TestConstantInit(t *testing.T) {
 			V: 131,
 			S: now,
 		},
-		OHLCV{
+		{
 			O: 13,
 			H: 18,
 			L: 10,

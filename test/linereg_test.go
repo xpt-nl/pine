@@ -1,4 +1,4 @@
-package pine
+package pine_test
 
 import (
 	"math"
@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestLinReg(t *testing.T) {
@@ -16,22 +18,22 @@ func TestLinReg(t *testing.T) {
 	close := NewOHLCProp(OHLCPropClose)
 	linreg := NewLinReg(close, 3)
 	data := []OHLCV{
-		OHLCV{
+		{
 			C: 4119.05,
 		},
-		OHLCV{
+		{
 			C: 4119.18,
 		},
-		OHLCV{
+		{
 			C: 4118.02,
 		},
-		OHLCV{
+		{
 			C: 4118.01,
 		},
-		OHLCV{
+		{
 			C: 4118,
 		},
-		OHLCV{
+		{
 			C: 4113.35,
 		},
 	}

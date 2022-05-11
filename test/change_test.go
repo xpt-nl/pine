@@ -1,13 +1,15 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
-func TestPrevious(t *testing.T) {
+func TestChange(t *testing.T) {
 	opts := SeriesOpts{
 		Interval: 300,
 		Max:      100,
@@ -16,24 +18,31 @@ func TestPrevious(t *testing.T) {
 	five := now.Add(5 * time.Minute)
 	ten := now.Add(10 * time.Minute)
 	hl2 := NewOHLCProp(OHLCPropClose)
-	prevname := "prev-diff"
-	prev := NewPrevious(hl2, 1)
+	chgdiffname := "change-diff"
+	chgdiff := NewChange(hl2, 1, nil)
+	chgopts := &ChangeOpts{
+		DiffType: ChangeDiffTypeRatio,
+	}
+	chgratio := NewChange(hl2, 1, chgopts)
+	chgrationame := "change-ratio"
 	data := []OHLCV{
-		OHLCV{
+		{
 			C: 3.1,
 			S: now,
 		},
-		OHLCV{
+		{
 			C: 2.8,
 			S: five,
 		},
-		OHLCV{
+		{
 			C: 3.4,
 			S: ten,
 		},
 	}
-	chgd1 := 3.1
-	chgd2 := 2.8
+	chgd1 := 2.8 - 3.1
+	chgr1 := 2.8 / 3.1
+	chgd2 := 3.4 - 2.8
+	chgr2 := 3.4 / 2.8
 	io := []struct {
 		time   time.Time
 		output map[string]*float64
@@ -45,13 +54,15 @@ func TestPrevious(t *testing.T) {
 		{
 			time: five,
 			output: map[string]*float64{
-				prevname: &chgd1,
+				chgdiffname:  &chgd1,
+				chgrationame: &chgr1,
 			},
 		},
 		{
 			time: ten,
 			output: map[string]*float64{
-				prevname: &chgd2,
+				chgdiffname:  &chgd2,
+				chgrationame: &chgr2,
 			},
 		},
 	}
@@ -59,11 +70,12 @@ func TestPrevious(t *testing.T) {
 	if err != nil {
 		t.Fatal(errors.Wrap(err, "error init series"))
 	}
-	s.AddIndicator(prevname, prev)
+	s.AddIndicator(chgrationame, chgratio)
+	s.AddIndicator(chgdiffname, chgdiff)
 
 	for i, o := range io {
 		v := s.GetValueForInterval(o.time)
-		for _, name := range []string{prevname} {
+		for _, name := range []string{chgrationame, chgdiffname} {
 			if v.Indicators[name] == nil && o.output == nil {
 				// ok
 				continue

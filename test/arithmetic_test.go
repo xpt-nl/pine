@@ -1,4 +1,4 @@
-package pine
+package pine_test
 
 import (
 	"testing"
@@ -6,6 +6,8 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/shopspring/decimal"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestArithmetic(t *testing.T) {
@@ -83,7 +85,7 @@ func TestArithmetic(t *testing.T) {
 	}
 
 	data := []OHLCV{
-		OHLCV{
+		{
 			O: 14,
 			H: 15,
 			L: 13,
@@ -91,7 +93,7 @@ func TestArithmetic(t *testing.T) {
 			V: 131,
 			S: now,
 		},
-		OHLCV{
+		{
 			O: 13,
 			H: 18,
 			L: 10,

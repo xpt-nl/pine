@@ -1,10 +1,12 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestSeriesAddExecFromEmptyData(t *testing.T) {
@@ -30,47 +32,47 @@ func TestSeriesAddExecFromEmptyData(t *testing.T) {
 	s.AddIndicator("sma", sma)
 
 	tpqs := []TPQ{
-		TPQ{
+		{
 			Qty:       5,
 			Px:        14,
 			Timestamp: now,
 		},
-		TPQ{
+		{
 			Qty:       2,
 			Px:        15,
 			Timestamp: now,
 		},
-		TPQ{
+		{
 			Qty:       3,
 			Px:        13,
 			Timestamp: now,
 		},
-		TPQ{
+		{
 			Qty:       7,
 			Px:        14,
 			Timestamp: now,
 		},
-		TPQ{
+		{
 			Qty:       10,
 			Px:        13,
 			Timestamp: fivemin,
 		},
-		TPQ{
+		{
 			Qty:       1,
 			Px:        18,
 			Timestamp: fivemin,
 		},
-		TPQ{
+		{
 			Qty:       3,
 			Px:        10,
 			Timestamp: fivemin,
 		},
-		TPQ{
+		{
 			Qty:       10,
 			Px:        15,
 			Timestamp: fivemin,
 		},
-		TPQ{
+		{
 			Qty:       13,
 			Px:        14,
 			Timestamp: fifteen,
@@ -131,15 +133,15 @@ func TestSeriesAddExecFromEmptyData(t *testing.T) {
 		}
 		h := v.OHLCV
 		if h.O != o.ohlcv.O {
-			t.Fatalf("expected new open to be 14 but got %+v", o.ohlcv.O)
+			t.Fatalf("expected new open to be %g but got %g", o.ohlcv.O, h.O)
 		} else if h.H != o.ohlcv.H {
-			t.Fatalf("expected new high to be 15 but got %+v", o.ohlcv.H)
+			t.Fatalf("expected new high to be %g but got %g", o.ohlcv.H, h.H)
 		} else if h.L != o.ohlcv.L {
-			t.Fatalf("expected new high to be 13 but got %+v", o.ohlcv.H)
+			t.Fatalf("expected new high to be %g but got %g", o.ohlcv.L, h.L)
 		} else if h.C != o.ohlcv.C {
-			t.Fatalf("expected close to be 14 but got %+v", o.ohlcv.C)
+			t.Fatalf("expected close to be %g but got %g", o.ohlcv.C, h.C)
 		} else if h.V != o.ohlcv.V {
-			t.Fatalf("expected vol to be 17 but got %+v", o.ohlcv.V)
+			t.Fatalf("expected vol to be %g but got %g", o.ohlcv.V, h.V)
 		}
 		sma := v.Indicators["sma"]
 		if sma == nil && o.sma == nil {

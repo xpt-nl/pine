@@ -1,10 +1,12 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestMedian(t *testing.T) {
@@ -23,19 +25,19 @@ func TestMedian(t *testing.T) {
 	indeven := NewMedian(sub, 2)
 	indodd := NewMedian(sub, 3)
 	data := []OHLCV{
-		OHLCV{
+		{
 			C: 3.1,
 			H: 3.3,
 			L: 3.0,
 			S: now,
 		},
-		OHLCV{
+		{
 			C: 2.8,
 			H: 2.8,
 			L: 2.4,
 			S: five,
 		},
-		OHLCV{
+		{
 			C: 3.4,
 			H: 3.5,
 			L: 2.8,

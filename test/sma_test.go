@@ -1,10 +1,12 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestSMA(t *testing.T) {
@@ -19,7 +21,7 @@ func TestSMA(t *testing.T) {
 	sma2 := NewSMA(hl2, 2)
 	sma3 := NewSMA(hl2, 3)
 	data := []OHLCV{
-		OHLCV{
+		{
 			O: 14,
 			H: 15,
 			L: 13,
@@ -27,7 +29,7 @@ func TestSMA(t *testing.T) {
 			V: 131,
 			S: now,
 		},
-		OHLCV{
+		{
 			O: 13,
 			H: 18,
 			L: 10,

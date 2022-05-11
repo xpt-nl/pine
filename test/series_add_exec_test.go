@@ -1,10 +1,12 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestSeriesAddExec(t *testing.T) {
@@ -19,7 +21,7 @@ func TestSeriesAddExec(t *testing.T) {
 	now := time.Now()
 	fivemin := now.Add(5 * time.Minute)
 	data := []OHLCV{
-		OHLCV{
+		{
 			O: 14,
 			H: 15,
 			L: 13,
@@ -27,7 +29,7 @@ func TestSeriesAddExec(t *testing.T) {
 			V: 131,
 			S: now,
 		},
-		OHLCV{
+		{
 			O: 13,
 			H: 18,
 			L: 10,
@@ -50,6 +52,7 @@ func TestSeriesAddExec(t *testing.T) {
 	if err := s.AddExec(tpqhigh); err != nil {
 		t.Fatal(errors.Wrapf(err, "error adding exec: %+v", tpqhigh))
 	}
+
 	v := s.GetValueForInterval(fivemin)
 	if v == nil {
 		t.Fatal("expected v to be non nil but got nil")
@@ -80,15 +83,15 @@ func TestSeriesAddExec(t *testing.T) {
 	}
 	l := v.OHLCV
 	if l.O != 13 {
-		t.Fatalf("expected new open to be 13 but got %+v", h.O)
+		t.Fatalf("expected new open to be 13 but got %+v", l.O)
 	} else if l.H != 20 {
-		t.Fatalf("expected new high to be 20 but got %+v", h.H)
+		t.Fatalf("expected new high to be 20 but got %+v", l.H)
 	} else if l.V != 1+12+4 {
-		t.Fatalf("expected vol to be 13 but got %+v", h.V)
+		t.Fatalf("expected vol to be 13 but got %+v", l.V)
 	} else if l.C != 3 {
-		t.Fatalf("expected close to be 3 but got %+v", h.C)
+		t.Fatalf("expected close to be 3 but got %+v", l.C)
 	} else if l.L != 3 {
-		t.Fatalf("expected close to be 3 but got %+v", h.L)
+		t.Fatalf("expected low to be 3 but got %+v", l.L)
 	}
 
 	// This should create new interval
@@ -117,7 +120,7 @@ func TestSeriesAddExec(t *testing.T) {
 	} else if n.C != 10 {
 		t.Fatalf("expected close to be 10 but got %+v", n.C)
 	} else if n.L != 10 {
-		t.Fatalf("expected close to be 10 but got %+v", n.L)
+		t.Fatalf("expected low to be 10 but got %+v", n.L)
 	}
 
 	// This should create 2 intervals since this spans two intervals

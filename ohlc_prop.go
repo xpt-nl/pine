@@ -50,7 +50,7 @@ func (i *ohlcprop) GetValueForInterval(t time.Time) *Interval {
 }
 
 func (i *ohlcprop) Update(v OHLCV) error {
-	timesame := i.last.S == v.S
+	timesame := i.last.S.Equal(v.S)
 	var valssame bool
 	var val float64
 	switch i.prop {

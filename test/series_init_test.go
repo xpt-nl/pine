@@ -1,7 +1,9 @@
-package pine
+package pine_test
 
 import (
 	"testing"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestSeriesInit(t *testing.T) {
@@ -17,7 +19,7 @@ func TestSeriesInit(t *testing.T) {
 
 func TestSeriesInitWithError(t *testing.T) {
 	badopts := []SeriesOpts{
-		SeriesOpts{},
+		{},
 	}
 	for i, opts := range badopts {
 		_, err := NewSeries(nil, opts)

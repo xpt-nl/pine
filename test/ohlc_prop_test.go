@@ -1,10 +1,12 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestOHLCProp(t *testing.T) {
@@ -15,7 +17,7 @@ func TestOHLCProp(t *testing.T) {
 	now := time.Now()
 	fivemin := now.Add(5 * time.Minute)
 	data := []OHLCV{
-		OHLCV{
+		{
 			O: 14,
 			H: 15,
 			L: 13,
@@ -23,7 +25,7 @@ func TestOHLCProp(t *testing.T) {
 			V: 131,
 			S: now,
 		},
-		OHLCV{
+		{
 			O: 13,
 			H: 18,
 			L: 10,

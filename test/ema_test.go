@@ -1,10 +1,12 @@
-package pine
+package pine_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/pkg/errors"
+
+	. "github.com/tsuz/go-pine"
 )
 
 func TestEMA(t *testing.T) {
@@ -20,23 +22,23 @@ func TestEMA(t *testing.T) {
 	hl2 := NewOHLCProp(OHLCPropClose)
 	ema := NewEMA(hl2, 4)
 	data := []OHLCV{
-		OHLCV{
+		{
 			C: 3.1,
 			S: now,
 		},
-		OHLCV{
+		{
 			C: 2.8,
 			S: five,
 		},
-		OHLCV{
+		{
 			C: 3.4,
 			S: ten,
 		},
-		OHLCV{
+		{
 			C: 2.1,
 			S: fifteen,
 		},
-		OHLCV{
+		{
 			C: 9,
 			S: twenty,
 		},
