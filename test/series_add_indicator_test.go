@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/tsuz/go-pine"
+	. "github.com/xpt-nl/pine"
 )
 
 func TestSeriesAddIndicator(t *testing.T) {

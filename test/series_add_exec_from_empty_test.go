@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/tsuz/go-pine"
+	. "github.com/xpt-nl/pine"
 )
 
 func TestSeriesAddExecFromEmptyData(t *testing.T) {

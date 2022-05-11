@@ -1,4 +1,4 @@
-module github.com/tsuz/go-pine
+module github.com/xpt-nl/pine
 
 go 1.18
 

@@ -7,7 +7,7 @@ import (
 
 	"github.com/shopspring/decimal"
 
-	. "github.com/tsuz/go-pine"
+	. "github.com/xpt-nl/pine"
 )
 
 func TestArithmetic(t *testing.T) {

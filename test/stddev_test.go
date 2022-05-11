@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/tsuz/go-pine"
+	. "github.com/xpt-nl/pine"
 )
 
 func TestStdDev(t *testing.T) {

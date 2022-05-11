@@ -3,7 +3,7 @@ package pine_test
 import (
 	"testing"
 
-	. "github.com/tsuz/go-pine"
+	. "github.com/xpt-nl/pine"
 )
 
 func TestSeriesInit(t *testing.T) {
